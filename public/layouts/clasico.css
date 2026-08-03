@@ -1,0 +1,1065 @@
+/*==================================================
+BLOQUE 01 - VARIABLES
+==================================================*/
+
+:root{
+
+    --paper:#F8F3E8;
+
+    --paper-light:#FFFDF8;
+
+    --burgundy:#8B1E1E;
+
+    --green:#2F5E3C;
+
+    --gold:#C9A35A;
+
+    --text:#2F2F2F;
+
+    --grey:#666666;
+
+    --border:#E8DDC5;
+
+    --shadow:
+
+        0 10px 30px rgba(0,0,0,.10);
+
+    --radius:22px;
+
+}
+
+/*==================================================
+BLOQUE 02 - RESET
+==================================================*/
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    background:var(--paper);
+
+    font-family:
+
+        Arial,
+
+        Helvetica,
+
+        sans-serif;
+
+    color:var(--text);
+
+    line-height:1.5;
+
+}
+
+/*==================================================
+BLOQUE 03 - CONTAINER
+==================================================*/
+
+.container{
+
+    width:100%;
+
+    max-width:900px;
+
+    margin:auto;
+
+    background:var(--paper-light);
+
+    min-height:100vh;
+
+    box-shadow:var(--shadow);
+
+    overflow:hidden;
+
+}
+
+/*==================================================
+BLOQUE 04 - HEADER
+==================================================*/
+
+.header{
+
+    width:100%;
+
+    height:220px;
+
+    background-image:
+
+        url("../img/header.png");
+
+    background-repeat:no-repeat;
+
+    background-position:center;
+
+    background-size:cover;
+
+}
+
+/*==================================================
+BLOQUE 05 - CONTENT
+==================================================*/
+
+.content{
+
+    padding:28px;
+
+}
+
+/*==================================================
+BLOQUE 06 - LANGUAGE BAR
+==================================================*/
+
+.language-bar{
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:14px;
+
+    margin:30px 0;
+
+}
+
+.language-bar button{
+
+    background:white;
+
+    border:2px solid var(--border);
+
+    border-radius:22px;
+
+    height:95px;
+
+    font-size:20px;
+
+    font-weight:700;
+
+    color:var(--text);
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    box-shadow:0 6px 16px rgba(0,0,0,.08);
+
+}
+
+.language-bar button:hover{
+
+    background:var(--burgundy);
+
+    color:white;
+
+}
+
+/*==================================================
+BLOQUE 07 - HERO
+==================================================*/
+
+.hero{
+
+    background:var(--burgundy);
+
+    color:white;
+
+    border-radius:26px;
+
+    padding:40px;
+
+    margin:35px 0;
+
+    text-align:center;
+
+    box-shadow:var(--shadow);
+
+}
+
+.hero h2{
+
+    font-size:46px;
+
+    line-height:1.15;
+
+    margin-bottom:18px;
+
+    font-weight:700;
+
+}
+
+.hero p{
+
+    font-size:24px;
+
+    color:#F5D9A2;
+
+}
+
+/*==================================================
+BLOQUE 08 - URL BOX
+==================================================*/
+
+.url-box{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-bottom:25px;
+
+}
+
+.url-box input{
+
+    flex:1;
+
+    border:2px solid var(--border);
+
+    border-radius:18px;
+
+    padding:18px;
+
+    font-size:18px;
+
+    outline:none;
+
+    background:white;
+
+}
+
+.url-box input:focus{
+
+    border-color:var(--burgundy);
+
+}
+
+.url-box button{
+
+    width:95px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:var(--burgundy);
+
+    color:white;
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+}
+
+/*==================================================
+BLOQUE 09 - SEPARATOR
+==================================================*/
+
+.separator{
+
+    text-align:center;
+
+    color:#777;
+
+    margin:30px 0;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    position:relative;
+
+}
+
+.separator:before{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    top:50%;
+
+    width:38%;
+
+    height:2px;
+
+    background:var(--border);
+
+}
+
+.separator:after{
+
+    content:"";
+
+    position:absolute;
+
+    right:0;
+
+    top:50%;
+
+    width:38%;
+
+    height:2px;
+
+    background:var(--border);
+
+}
+
+/*==================================================
+BLOQUE 10 - ACTION CARDS
+==================================================*/
+
+.action-grid{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:28px;
+
+    margin:40px 0;
+
+}
+
+.action-card{
+
+    width:50%;
+
+    min-width:320px;
+
+    background:white;
+
+    border-radius:30px;
+
+    padding:35px;
+
+    text-align:center;
+
+    cursor:pointer;
+
+    box-shadow:var(--shadow);
+
+    transition:.25s;
+
+}
+
+.action-card:hover{
+
+    transform:translateY(-5px);
+
+}
+
+.action-icon{
+
+    font-size:64px;
+
+    margin-bottom:18px;
+
+}
+
+.action-card h3{
+
+    font-size:30px;
+
+    color:var(--green);
+
+    margin-bottom:14px;
+
+}
+
+.action-card p{
+
+    font-size:18px;
+
+    color:var(--grey);
+
+    line-height:1.6;
+
+}
+
+/*==================================================
+BLOQUE 11 - RESULT
+==================================================*/
+
+.menu-container{
+
+    margin-top:35px;
+
+}
+
+#result{
+
+    width:100%;
+
+}
+
+#result:empty{
+
+    display:none;
+
+}
+/*==================================================
+BLOQUE 12 - CATEGORIES
+==================================================*/
+
+.category{
+
+    margin:45px 0 20px;
+
+}
+
+.category h2{
+
+    color:var(--green);
+
+    font-size:30px;
+
+    font-weight:700;
+
+    padding-bottom:10px;
+
+    border-bottom:3px solid var(--border);
+
+    letter-spacing:.5px;
+
+}
+/*==================================================
+BLOQUE 13 - MENU CARDS
+==================================================*/
+
+.item{
+
+    background:white;
+
+    border-radius:22px;
+
+    padding:22px;
+
+    margin-bottom:20px;
+
+    box-shadow:var(--shadow);
+
+    transition:.25s;
+
+    border:1px solid rgba(0,0,0,.04);
+
+}
+
+.item:hover{
+
+    transform:translateY(-3px);
+
+}
+
+.item h3{
+
+    color:var(--text);
+
+    font-size:24px;
+
+    margin-bottom:10px;
+
+    line-height:1.25;
+
+}
+
+.item p{
+
+    color:var(--grey);
+
+    font-size:17px;
+
+    line-height:1.6;
+
+    margin-bottom:18px;
+
+}
+
+.price{
+
+    color:var(--green);
+
+    font-size:30px;
+
+    font-weight:700;
+
+    margin-bottom:18px;
+
+}
+
+/*==================================================
+BLOQUE 14 - MORE INFO
+==================================================*/
+
+.item button{
+
+    width:100%;
+
+    border:none;
+
+    border-radius:16px;
+
+    background:var(--burgundy);
+
+    color:white;
+}
+
+/*==================================================
+BLOQUE 15 - BUTTONS & MORE INFO
+==================================================*/
+
+/* Botón More Info */
+
+.item button{
+
+    width:100%;
+
+    background:var(--burgundy);
+
+    color:white;
+
+    border:none;
+
+    border-radius:16px;
+
+    padding:14px 20px;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    box-shadow:0 4px 10px rgba(0,0,0,.08);
+
+}
+
+.item button:hover{
+
+    background:#741717;
+
+    transform:translateY(-2px);
+
+}
+
+.item button:active{
+
+    transform:scale(.98);
+
+}
+
+
+/* Panel More Info */
+
+.dish-info{
+
+    display:none;
+
+    margin-top:18px;
+
+    padding:18px;
+
+    background:#FFF8EC;
+
+    border-left:5px solid var(--gold);
+
+    border-radius:14px;
+
+    color:var(--text);
+
+    font-size:15px;
+
+    line-height:1.7;
+
+    box-shadow:0 4px 10px rgba(0,0,0,.05);
+
+}
+
+
+/* Botones generales */
+
+button{
+
+    font-family:inherit;
+
+}
+
+
+/* Botón Exportar CSV */
+
+.export-zone{
+
+    text-align:center;
+
+    margin:30px 0;
+
+}
+
+.export-zone button{
+
+    background:var(--green);
+
+    color:white;
+
+    border:none;
+
+    border-radius:18px;
+
+    padding:16px 30px;
+
+    font-size:18px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    box-shadow:var(--shadow);
+
+}
+
+.export-zone button:hover{
+
+    opacity:.92;
+
+    transform:translateY(-2px);
+
+}
+
+/*==================================================
+BLOQUE 16 - FOOTER
+==================================================*/
+
+.footer{
+
+    width:100%;
+
+    aspect-ratio:1920/260;
+
+    background-image:url("../img/footer.png");
+
+    background-repeat:no-repeat;
+
+    background-position:center;
+
+    background-size:contain;
+
+    margin-top:50px;
+
+}
+
+/*==================================================
+BLOQUE 17 - ANIMATIONS
+==================================================*/
+
+@keyframes fadeUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(18px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+.hero,
+.action-card,
+.item,
+.category{
+
+    animation:fadeUp .35s ease;
+
+}
+
+button{
+
+    transition:.25s;
+
+}
+
+button:hover{
+
+    transform:translateY(-2px);
+
+}
+
+button:active{
+
+    transform:scale(.98);
+
+}
+
+/*==================================================
+BLOQUE 18 - TABLET
+==================================================*/
+
+@media (max-width:992px){
+
+.container{
+
+    max-width:100%;
+
+}
+
+.content{
+
+    padding:22px;
+
+}
+
+.header{
+
+    height:180px;
+
+}
+
+.hero h2{
+
+    font-size:30px;
+
+}
+
+.hero p{
+
+    font-size:18px;
+
+}
+
+}
+
+/*==================================================
+BLOQUE 19 - MOBILE APP V2
+==================================================*/
+
+@media (max-width:768px){
+
+/*------------------------------
+GENERAL
+------------------------------*/
+
+.content{
+
+    padding:18px;
+
+}
+
+/*------------------------------
+HEADER
+------------------------------*/
+
+.header{
+
+    height:110px;
+
+}
+
+/*------------------------------
+IDIOMAS
+------------------------------*/
+
+.language-bar{
+
+    gap:10px;
+
+    margin:18px 0 24px;
+
+}
+
+.language-bar button{
+
+    height:78px;
+
+    padding:8px;
+
+    border-radius:18px;
+
+    font-size:17px;
+
+    font-weight:700;
+
+}
+
+.language-bar .flag{
+
+    display:block;
+
+    font-size:28px;
+
+    margin-bottom:6px;
+
+}
+
+/*------------------------------
+HERO
+------------------------------*/
+
+.hero{
+
+    padding:26px;
+
+    margin-bottom:22px;
+
+    border-radius:22px;
+
+}
+
+.hero h2{
+
+    font-size:30px;
+
+    line-height:1.15;
+
+    margin-bottom:14px;
+
+}
+
+.hero p{
+
+    font-size:17px;
+
+    line-height:1.6;
+
+}
+
+/*------------------------------
+URL
+------------------------------*/
+
+.url-box{
+
+    margin-bottom:22px;
+
+}
+
+.url-box input{
+
+    height:58px;
+
+    font-size:17px;
+
+    padding:18px;
+
+}
+
+.url-box button{
+
+    width:82px;
+
+    height:58px;
+
+    font-size:22px;
+
+}
+
+/*------------------------------
+SEPARADOR
+------------------------------*/
+
+.separator{
+
+    font-size:15px;
+
+    margin:24px 0;
+
+}
+
+/*------------------------------
+ACCIONES
+------------------------------*/
+
+.action-grid{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:18px;
+
+}
+
+.action-card{
+
+    width:92%;
+
+    padding:24px;
+
+    border-radius:24px;
+
+}
+
+.action-icon{
+
+    font-size:52px;
+
+    margin-bottom:12px;
+
+}
+
+.action-card h3{
+
+    font-size:22px;
+
+    margin-bottom:10px;
+
+}
+
+.action-card p{
+
+    font-size:16px;
+
+    line-height:1.45;
+
+}
+
+/*------------------------------
+CSV
+------------------------------*/
+
+.export-zone{
+
+    margin:28px 0;
+
+}
+
+.export-zone button{
+
+    width:88%;
+
+    padding:18px;
+
+    font-size:20px;
+
+}
+
+/*------------------------------
+CATEGORIAS
+------------------------------*/
+
+.category{
+
+    margin-top:35px;
+
+}
+
+.category h2{
+
+    font-size:26px;
+
+}
+
+/*------------------------------
+PLATOS
+------------------------------*/
+
+.item{
+
+    padding:22px;
+
+    margin-bottom:18px;
+
+}
+
+.item h3{
+
+    font-size:22px;
+
+    margin-bottom:10px;
+
+}
+
+.item p{
+
+    font-size:16px;
+
+    margin-bottom:12px;
+
+}
+
+.price{
+
+    font-size:28px;
+
+    margin-bottom:18px;
+
+}
+
+.item button{
+
+    padding:16px;
+
+    font-size:19px;
+
+    border-radius:16px;
+
+}
+
+.dish-info{
+
+    font-size:15px;
+
+}
+
+/*------------------------------
+FOOTER
+------------------------------*/
+
+.footer{
+
+    width:100%;
+
+    margin-top:40px;
+
+}
+
+.footer a{
+
+    display:block;
+
+    width:100%;
+
+}
+
+.footer img{
+
+    display:block;
+
+    width:100%;
+
+    height:auto;
+
+}
+}

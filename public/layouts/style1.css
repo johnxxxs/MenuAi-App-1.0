@@ -1,0 +1,1051 @@
+/*==================================================
+BLOQUE 01 - BODY
+==================================================*/
+
+*{
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+}
+
+body{
+
+    font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Arial,
+    sans-serif;
+
+    background:#f3f4f7;
+
+    color:#222;
+
+    padding:20px;
+
+}
+
+
+
+/*==================================================
+BLOQUE 02 - CONTAINER
+==================================================*/
+
+.container{
+
+    width:100%;
+    max-width:850px;
+
+    margin:auto;
+
+    background:white;
+
+    border-radius:30px;
+
+    padding:35px;
+
+    box-shadow:
+
+        0 10px 40px rgba(0,0,0,.08);
+
+}
+
+
+
+/*==================================================
+BLOQUE 03 - HEADER
+==================================================*/
+
+.header{
+
+    text-align:center;
+
+    margin-bottom:40px;
+
+}
+
+.header h1{
+
+    font-size:58px;
+
+    font-weight:800;
+
+    color:#111;
+
+    margin-bottom:12px;
+
+}
+
+.header p{
+
+    font-size:24px;
+
+    color:#666;
+
+    line-height:1.4;
+
+    max-width:650px;
+
+    margin:auto;
+
+}
+
+
+
+/*==================================================
+BLOQUE 04 - BANDERAS
+==================================================*/
+
+.language-bar{
+
+    margin:30px 0;
+
+}
+
+.language-bar button{
+
+    width:72px;
+
+    height:72px;
+
+    margin:8px;
+
+    border:none;
+
+    border-radius:20px;
+
+    background:black;
+
+    color:white;
+
+    font-size:30px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.language-bar button:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:
+
+        0 8px 25px rgba(0,0,0,.20);
+
+}
+
+
+
+/*==================================================
+BLOQUE 05 - INPUTS
+==================================================*/
+
+input{
+
+    width:100%;
+
+    padding:22px;
+
+    margin-top:15px;
+
+    margin-bottom:20px;
+
+    font-size:22px;
+
+    border-radius:18px;
+
+    border:2px solid #e5e5e5;
+
+    outline:none;
+
+    transition:.25s;
+
+}
+
+input:focus{
+
+    border-color:#111;
+
+    box-shadow:
+
+        0 0 0 4px rgba(0,0,0,.06);
+
+}
+
+input::placeholder{
+
+    color:#999;
+
+}
+
+
+
+/*==================================================
+BLOQUE 06 - BOTONES
+==================================================*/
+
+button{
+
+    width:100%;
+
+    padding:22px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#111;
+
+    color:white;
+
+    font-size:22px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    margin-top:15px;
+
+}
+
+button:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+
+        0 10px 25px rgba(0,0,0,.18);
+
+}
+
+button:active{
+
+    transform:scale(.98);
+
+}
+
+/*==================================================
+BLOQUE 07 - BOTONES CAMARA
+==================================================*/
+
+.upload-button{
+
+    display:inline-flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    width:240px;
+
+    height:70px;
+
+    margin:8px;
+
+    border-radius:18px;
+
+    background:#111;
+
+    color:#fff;
+
+    font-size:20px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    user-select:none;
+
+    box-shadow:
+        0 8px 18px rgba(0,0,0,.15);
+
+}
+
+.upload-button:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 14px 28px rgba(0,0,0,.22);
+
+}
+
+.upload-button:active{
+
+    transform:scale(.98);
+
+}
+
+
+/*==================================================
+BLOQUE 08 - SEPARADOR
+==================================================*/
+
+.separator{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:15px;
+
+    margin:35px 0;
+
+    color:#999;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    text-transform:uppercase;
+
+}
+
+.separator::before,
+
+.separator::after{
+
+    content:"";
+
+    flex:1;
+
+    height:1px;
+
+    background:#ddd;
+
+}
+
+
+
+/*==================================================
+BLOQUE 09 - CATEGORIAS
+==================================================*/
+
+.category{
+
+    margin-top:45px;
+
+}
+
+.category h2{
+
+    font-size:32px;
+
+    margin-bottom:20px;
+
+    color:#111;
+
+    font-weight:800;
+
+}
+
+.category-list{
+
+    display:flex;
+
+    overflow-x:auto;
+
+    gap:12px;
+
+    padding-bottom:10px;
+
+    scrollbar-width:none;
+
+}
+
+.category-list::-webkit-scrollbar{
+
+    display:none;
+
+}
+
+.category-chip{
+
+    white-space:nowrap;
+
+    padding:12px 22px;
+
+    background:#fff;
+
+    border-radius:999px;
+
+    border:1px solid #e8e8e8;
+
+    font-size:17px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,.06);
+
+}
+
+.category-chip:hover{
+
+    background:#111;
+
+    color:white;
+
+}
+
+
+/*==================================================
+BLOQUE 10 - TARJETAS PLATOS
+==================================================*/
+
+.item{
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:26px;
+
+    margin-top:22px;
+
+    border:1px solid #ececec;
+
+    box-shadow:
+        0 10px 30px rgba(0,0,0,.06);
+
+    transition:.25s;
+
+}
+
+.item:hover{
+
+    transform:translateY(-4px);
+
+    box-shadow:
+        0 18px 35px rgba(0,0,0,.10);
+
+}
+
+.item h3{
+
+    font-size:30px;
+
+    color:#111;
+
+    margin-bottom:12px;
+
+    font-weight:800;
+
+}
+
+.item p{
+
+    font-size:19px;
+
+    color:#666;
+
+    line-height:1.6;
+
+    margin-bottom:15px;
+
+}
+
+.price{
+
+    font-size:34px;
+
+    font-weight:800;
+
+    color:#1D9A44;
+
+    margin:20px 0;
+
+}
+
+
+/*==================================================
+BLOQUE 11 - MORE INFO
+==================================================*/
+
+.dish-info{
+
+    display:none;
+
+    margin-top:20px;
+
+    padding:22px;
+
+    border-radius:18px;
+
+    background:#F6F7FA;
+
+    border-left:6px solid #111;
+
+    font-size:18px;
+
+    color:#333;
+
+    line-height:1.8;
+
+    white-space:pre-line;
+
+    animation:fadeIn .25s ease;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(10px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/*==================================================
+BLOQUE 12 - CATEGORY TITLE
+==================================================*/
+
+.category{
+
+    margin-top:55px;
+
+}
+
+.category-title{
+
+    font-size:34px;
+
+    font-weight:800;
+
+    color:#111;
+
+    padding-bottom:12px;
+
+    margin-bottom:28px;
+
+    border-bottom:2px solid #ECECEC;
+
+}
+
+
+/*==================================================
+BLOQUE 14 - PRICE
+==================================================*/
+
+.price{
+
+    font-size:28px;
+
+    font-weight:800;
+
+    color:#18A34A;
+
+    margin-top:18px;
+
+    margin-bottom:20px;
+
+}
+
+/*==================================================
+BLOQUE 15 - TARJETAS APP
+==================================================*/
+
+.item{
+
+    background:#FFFFFF;
+
+    border-radius:24px;
+
+    padding:28px;
+
+    margin-top:22px;
+
+    margin-bottom:22px;
+
+    border:1px solid #ECECEC;
+
+    box-shadow:
+        0 8px 24px rgba(0,0,0,.06);
+
+    transition:.25s;
+
+}
+
+.item:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+        0 18px 40px rgba(0,0,0,.10);
+
+}
+
+.item h3{
+
+    font-size:40px;
+
+    font-weight:800;
+
+    color:#111;
+
+    margin-bottom:18px;
+
+    line-height:1.2;
+
+}
+
+.item p{
+
+    font-size:22px;
+
+    color:#666;
+
+    line-height:1.7;
+
+    margin-bottom:10px;
+
+}
+
+/*==================================================
+BLOQUE 16 - BOTONES APP
+==================================================*/
+
+.item button{
+
+    width:100%;
+
+    margin-top:15px;
+
+    padding:18px;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:#111;
+
+    color:white;
+
+    font-size:21px;
+
+    font-weight:700;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.item button:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 10px 24px rgba(0,0,0,.18);
+
+}
+
+.item button:active{
+
+    transform:scale(.98);
+
+}
+
+/*==================================================
+BLOQUE 17 - ANIMACIONES
+==================================================*/
+
+.category{
+
+    animation:fadeCategory .35s ease;
+
+}
+
+.item{
+
+    animation:fadeCard .35s ease;
+
+}
+
+@keyframes fadeCategory{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(15px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+@keyframes fadeCard{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(20px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/*==================================================
+BLOQUE 18 - RESPONSIVE MOVIL
+==================================================*/
+
+@media(max-width:768px){
+
+body{
+
+    padding:12px;
+
+}
+
+.container{
+
+    padding:22px;
+
+    border-radius:22px;
+
+}
+
+.header h1{
+
+    font-size:48px;
+
+}
+
+.header p{
+
+    font-size:20px;
+
+}
+
+.category-title{
+
+    font-size:30px;
+
+}
+
+.item{
+
+    padding:24px;
+
+}
+
+.item h3{
+
+    font-size:30px;
+
+}
+
+.item p{
+
+    font-size:19px;
+
+}
+
+.price{
+
+    font-size:26px;
+
+}
+
+button{
+
+    font-size:19px;
+
+}
+
+.upload-button{
+
+    width:100%;
+
+    margin:8px 0;
+
+}
+
+}
+
+/*==================================================
+BLOQUE 19 - MORE INFO
+==================================================*/
+
+.dish-info{
+
+    display:none;
+
+    margin-top:20px;
+
+    padding:24px;
+
+    background:#F8F9FB;
+
+    border:1px solid #E9E9E9;
+
+    border-left:5px solid #18A34A;
+
+    border-radius:18px;
+
+    color:#444;
+
+    font-size:18px;
+
+    line-height:1.8;
+
+    white-space:pre-line;
+
+    box-shadow:
+        0 8px 18px rgba(0,0,0,.05);
+
+    animation:fadeInfo .25s ease;
+
+}
+
+@keyframes fadeInfo{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(8px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:translateY(0);
+
+    }
+
+}
+
+/*==================================================
+BLOQUE 20 - DETALLES VISUALES
+==================================================*/
+
+hr{
+
+    border:none;
+
+    height:1px;
+
+    background:#E8E8E8;
+
+    margin:35px 0;
+
+}
+
+.separator{
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:15px;
+
+    margin:35px 0;
+
+    color:#999;
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+.separator::before{
+
+    content:"";
+
+    flex:1;
+
+    height:1px;
+
+    background:#DDDDDD;
+
+}
+
+.separator::after{
+
+    content:"";
+
+    flex:1;
+
+    height:1px;
+
+    background:#DDDDDD;
+
+}
+
+#result{
+
+    margin-top:45px;
+
+}
+
+::selection{
+
+    background:#111;
+
+    color:white;
+
+}
+
+/*==================================================
+BLOQUE 21 - DESKTOP / TABLET
+==================================================*/
+
+@media(min-width:900px){
+
+.container{
+
+    max-width:900px;
+
+    padding:45px;
+
+}
+
+.item{
+
+    padding:34px;
+
+}
+
+.item h3{
+
+    font-size:36px;
+
+}
+
+.item p{
+
+    font-size:21px;
+
+}
+
+.price{
+
+    font-size:30px;
+
+}
+
+button{
+
+    font-size:20px;
+
+}
+
+.upload-button{
+
+    width:260px;
+
+}
+
+.category-title{
+
+    font-size:36px;
+
+}
+
+}
+
+/* Scroll elegante */
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+body::-webkit-scrollbar-thumb{
+
+    background:#CCCCCC;
+
+    border-radius:20px;
+
+}
+
+body::-webkit-scrollbar-thumb:hover{
+
+    background:#999999;
+
+}
+
+/*==================================================
+BLOQUE 22 - ALINEACION CONTENIDO
+==================================================*/
+
+.item{
+
+    text-align:left;
+
+}
+
+.item h3{
+
+    text-align:left;
+
+}
+
+.item p{
+
+    text-align:left;
+
+}
+
+.dish-info{
+
+    text-align:left;
+
+}

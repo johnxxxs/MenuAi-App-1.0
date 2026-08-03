@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Menu Ai 1.0</title>
+
+<link
+rel="stylesheet"
+href="layouts/clasico.css">
+
+</head>
+
+  <body>
+
+<div class="container">
+
+    <!--==================================
+    HEADER
+    ===================================-->
+
+    <header class="header"></header>
+
+    <!--==================================
+    CONTENT
+    ===================================-->
+
+    <div class="content">
+
+        <!--==================================
+        IDIOMAS
+        ===================================-->
+
+        <div class="language-bar">
+
+            <button onclick="changeLanguage('es')">
+                <span class="flag">🇪🇸</span>
+                <span>Español</span>
+            </button>
+
+            <button onclick="changeLanguage('en')">
+                <span class="flag">🇬🇧</span>
+                <span>English</span>
+            </button>
+
+            <button onclick="changeLanguage('fr')">
+                <span class="flag">🇫🇷</span>
+                <span>Français</span>
+            </button>
+
+            <button onclick="changeLanguage('it')">
+                <span class="flag">🇮🇹</span>
+                <span>Italiano</span>
+            </button>
+
+        </div>
+
+        <!--==================================
+        HERO
+        ===================================-->
+
+        <section class="hero">
+
+            <h2 id="heroTitle">
+                Digitaliza cualquier carta de restaurante
+            </h2>
+
+            <p id="heroSubtitle">
+                🌍 Traduce • 🍽 Descubre platos • 📄 Exporta CSV
+            </p>
+
+        </section>
+
+        <!--==================================
+        URL
+        ===================================-->
+
+        <div class="url-box">
+
+            <input
+                id="url"
+                type="text"
+                placeholder="Pegar URL carta digital, web o página de pedidos"
+            >
+
+            <button onclick="extractMenu()">
+                IR
+            </button>
+
+        </div>
+
+        <!--==================================
+        SEPARADOR
+        ===================================-->
+
+        <div
+            class="separator"
+            id="separatorText">
+
+            O escanea una carta
+
+        </div>
+
+        <!--==================================
+        ACTION CARDS
+        ===================================-->
+
+        <div class="action-grid">
+
+            <!-- Cámara -->
+
+            <div class="action-card">
+
+                <label for="cameraFile">
+
+                    <div class="action-icon">
+                        📷
+                    </div>
+
+                    <h3 id="scanTitle">
+                        Escanear menú
+                    </h3>
+
+                    <p id="scanText">
+                        Abre la cámara y digitaliza una carta al instante.
+                    </p>
+
+                </label>
+
+                <input
+                    id="cameraFile"
+                    type="file"
+                    accept="image/*"
+                    capture="environment"
+                    hidden>
+
+            </div>
+
+            <!-- Galería -->
+
+            <div class="action-card">
+
+                <label for="imageFile">
+
+                    <div class="action-icon">
+                        🖼️
+                    </div>
+
+                    <h3 id="uploadTitle">
+                        Subir foto
+                    </h3>
+
+                    <p id="uploadText">
+                        Selecciona una imagen desde tu dispositivo.
+                    </p>
+
+                </label>
+
+                <input
+                    id="imageFile"
+                    type="file"
+                    accept="image/*"
+                    hidden>
+
+            </div>
+
+            <!-- PDF -->
+
+<div class="action-card">
+
+    <label for="pdfInput">
+
+        <div class="action-icon">
+            📄
+        </div>
+
+        <h3>
+            Subir PDF
+        </h3>
+
+        <p>
+            Selecciona una carta en PDF.
+        </p>
+
+    </label>
+
+</div>
+
+            
+            <input
+                    type="file"
+                    id="pdfInput"
+                    accept="application/pdf,.pdf"
+                    hidden
+>
+
+        </div>
+
+        
+
+        <!--==================================
+        EXPORT CSV
+        ===================================-->
+
+        <div class="export-zone">
+
+            <button
+                id="csvButton"
+                onclick="exportCSV()">
+
+                📄 Exportar CSV PRO
+
+            </button>
+
+        </div>
+
+        <!--==================================
+        RESULTADO
+        ===================================-->
+
+        <div class="menu-container">
+
+            <div id="result"></div>
+
+        </div>
+
+    </div>
+
+    <!--==================================
+FOOTER
+===================================-->
+
+<footer class="footer">
+
+    <a
+        href="https://wa.me/34643550442?text=Hola%2C%20estoy%20interesado%20en%20esta%20App%20para%20mi%20negocio"
+        target="_blank">
+  
+
+        <img
+            src="img/footer.png"
+            alt="Contactar por WhatsApp">
+
+    </a>
+
+</footer>
+
+</div>
+
+</body>
+
+<script>
+
+  
+  
+
+  
+//==================================================
+// BLOQUE 01 - VARIABLES GLOBALES
+//==================================================
+
+let currentMenu = [];
+
+let currentLanguage = "es";
+
+//==================================================
+// BLOQUE 1.1 - TEXTOS INTERFAZ
+//==================================================
+
+const texts = {
+
+  es: {
+
+    scanning:
+`🍽️🤖 Escaneando menú...
+
+😊 Esto tardará un momento, paciencia por favor.`,
+
+    thinking:
+`👨‍🍳🤖 Recogiendo datos del plato...
+
+😊 Un momento, por favor.`
+
+  },
+
+  en: {
+
+    scanning:
+`🍽️🤖 Scanning menu...
+
+😊 This will take a moment.
+Thanks for your patience.`,
+
+    thinking:
+`👨‍🍳🤖 Collecting dish info...
+
+😊 One moment please.`
+
+  },
+
+  fr: {
+
+    scanning:
+`🍽️🤖 Analyse du menu...
+
+😊 Cela prendra un instant.
+Merci pour votre patience.`,
+
+    thinking:
+`👨‍🍳🤖 Préparation de la réponse...
+
+😊 Un instant, s'il vous plaît.`
+
+  },
+
+  it: {
+
+    scanning:
+`🍽️🤖 Scansione del menu...
+
+😊 Ci vorrà un momento.
+Grazie per la pazienza.`,
+
+    thinking:
+`👨‍🍳🤖 Preparazione della risposta...
+
+😊 Un momento, per favore.`
+
+  }
+
+};
+
+//==================================================
+// BLOQUE 1.2 - UI TRANSLATIONS
+//==================================================
+
+const uiTranslations = {
+
+  es:{
+
+    heroTitle:
+      "Digitaliza cualquier carta de restaurante",
+
+    heroSubtitle:
+      "🌍 Traduce • 🍽 Descubre platos • 📄 Exporta CSV",
+
+    placeholder:
+      "Pegar URL carta digital, web o página de pedidos",
+
+    separator:
+      "O escanea una carta",
+
+    scanTitle:
+      "Escanear menú",
+
+    scanText:
+      "Abre la cámara y digitaliza una carta al instante.",
+
+    uploadTitle:
+      "Subir foto",
+
+    uploadText:
+      "Selecciona una imagen desde tu dispositivo.",
+
+    csv:
+      "📄 Exportar CSV PRO"
+
+  },
+
+  en:{
+
+    heroTitle:
+      "Digitize any restaurant menu",
+
+    heroSubtitle:
+      "🌍 Translate • 🍽 Discover dishes • 📄 Export CSV",
+
+    placeholder:
+      "Paste menu URL or website",
+
+    separator:
+      "Or scan a menu",
+
+    scanTitle:
+      "Scan menu",
+
+    scanText:
+      "Open the camera and digitize a menu instantly.",
+
+    uploadTitle:
+      "Upload photo",
+
+    uploadText:
+      "Choose an image from your device.",
+
+    csv:
+      "📄 Export CSV PRO"
+
+  },
+
+  fr:{
+
+    heroTitle:
+      "Numérisez n'importe quel menu",
+
+    heroSubtitle:
+      "🌍 Traduire • 🍽 Découvrir • 📄 Export CSV",
+
+    placeholder:
+      "Collez l'URL du menu",
+
+    separator:
+      "Ou scannez un menu",
+
+    scanTitle:
+      "Scanner le menu",
+
+    scanText:
+      "Ouvrez l'appareil photo et numérisez un menu.",
+
+    uploadTitle:
+      "Télécharger une photo",
+
+    uploadText:
+      "Choisissez une image.",
+
+    csv:
+      "📄 Exporter CSV"
+
+  },
+
+  it:{
+
+    heroTitle:
+      "Digitalizza qualsiasi menù",
+
+    heroSubtitle:
+      "🌍 Traduci • 🍽 Scopri • 📄 Esporta CSV",
+
+    placeholder:
+      "Incolla URL del menù",
+
+    separator:
+      "Oppure scansiona un menù",
+
+    scanTitle:
+      "Scansiona menù",
+
+    scanText:
+      "Apri la fotocamera e digitalizza un menù.",
+
+    uploadTitle:
+      "Carica foto",
+
+    uploadText:
+      "Scegli un'immagine.",
+
+    csv:
+      "📄 Esporta CSV"
+
+  }
+
+};
+
+//==================================================
+// BLOQUE 02 - EXTRAER MENU
+//==================================================
+
+async function extractMenu() {
+
+  document.getElementById("result").innerHTML =
+    texts[currentLanguage]?.scanning ||
+    texts.es.scanning;
+
+  const url =
+    document.getElementById("url").value;
+
+  const formData =
+    new FormData();
+
+  formData.append("url", url);
+
+  // Enviamos también el idioma seleccionado
+
+  formData.append(
+    "language",
+    currentLanguage
+  );
+
+  const imageFile =
+    document.getElementById("imageFile").files[0];
+
+  const cameraFile =
+    document.getElementById("cameraFile").files[0];
+
+  const selectedImage =
+    cameraFile || imageFile;
+
+  if (selectedImage) {
+
+    formData.append(
+      "imageFile",
+      selectedImage
+    );
+
+  }
+
+  const pdfFile =
+    document.getElementById("pdfInput").files[0];
+
+if (pdfFile) {
+
+    formData.append(
+        "pdfFile",
+        pdfFile
+    );
+
+}
+
+  try {
+
+    const response =
+      await fetch("/process", {
+
+        method: "POST",
+
+        body: formData
+
+      });
+
+    const data =
+      await response.json();
+
+    console.log(data);
+
+    if (!data.success) {
+
+      document.getElementById("result").innerHTML =
+        "❌ " + data.error;
+
+      return;
+
+    }
+
+    const cleanJson =
+      data.parsedMenu
+        .replace(/```json/g, "")
+        .replace(/```/g, "")
+        .trim();
+
+    const menu =
+      JSON.parse(cleanJson);
+
+    currentMenu =
+      menu.items;
+
+    renderMenu(currentMenu);
+
+  }
+
+  catch(error){
+
+    console.error(error);
+
+    document.getElementById("result").innerHTML =
+      "❌ Error de conexión con el servidor.";
+
+  }
+
+}
+
+//==================================================
+// BLOQUE 02.1 - AUTO DIGITALIZAR IMAGEN
+//==================================================
+
+document.getElementById("imageFile").addEventListener(
+
+  "change",
+
+  function () {
+
+    if (this.files.length > 0) {
+
+      extractMenu();
+
+    }
+
+  }
+
+);
+
+document.getElementById("cameraFile").addEventListener(
+
+  "change",
+
+  function () {
+
+    if (this.files.length > 0) {
+
+      extractMenu();
+
+    }
+
+  }
+
+);
+
+document.getElementById("pdfInput").addEventListener(
+
+  "change",
+
+  function () {
+
+    if (this.files.length > 0) {
+
+      extractMenu();
+
+    }
+
+  }
+
+);
+
+//==================================================
+// BLOQUE 03 - RENDER MENU
+//==================================================
+
+function renderMenu(items) {
+
+  let html = "";
+
+  let currentCategory = "";
+
+  items.forEach(item => {
+
+    // Nueva categoría
+    if (item.category !== currentCategory) {
+
+      currentCategory = item.category;
+
+      html += `
+
+        <div class="category">
+
+          <div class="category-title">
+
+            ${currentCategory}
+
+          </div>
+
+      `;
+
+    }
+
+    html += `
+
+<div class="item">
+
+    <h3>
+
+        ${item.name || ""}
+
+    </h3>
+
+    <p>
+
+        ${item.description || ""}
+
+    </p>
+
+    <div class="price">
+
+        ${item.price || ""}
+
+    </div>
+
+    <button
+        onclick="getDishInfo(
+            '${item.name}',
+            '${item.category}',
+            this
+        )">
+
+        ✨ More Info
+
+    </button>
+
+    <div class="dish-info"></div>
+
+</div>
+
+`;
+
+  });
+
+  html += `
+
+      </div>
+
+  `;
+
+  document.getElementById("result").innerHTML =
+    html;
+
+}
+
+//==================================================
+// BLOQUE 04 - MORE INFO
+//==================================================
+
+async function getDishInfo(
+  dishName,
+  category,
+  button
+) {
+
+  const infoBox =
+    button.parentElement.querySelector(".dish-info");
+
+  infoBox.style.display =
+    "block";
+
+  infoBox.innerHTML =
+  texts[currentLanguage]?.thinking ||
+  texts.es.thinking;
+
+  try {
+
+    const response =
+      await fetch("/dish-info", {
+
+        method: "POST",
+
+        headers: {
+          "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+
+          dishName: dishName,
+
+          category: category,
+
+          restaurant: "",
+
+          language: currentLanguage
+
+        })
+
+      });
+
+    const data =
+      await response.json();
+
+    if (!data.success) {
+
+      infoBox.innerHTML =
+        data.error;
+
+      return;
+
+    }
+
+    infoBox.innerHTML =
+      data.info;
+
+  }
+
+  catch(error){
+
+    console.error(error);
+
+    infoBox.innerHTML =
+      "❌ Error obteniendo información.";
+
+  }
+
+}
+
+//==================================================
+// FIN BLOQUE 04
+//==================================================
+
+
+      //==================================================
+// BLOQUE 05 - EXPORTAR CSV
+//==================================================
+
+function exportCSV() {
+
+  if (currentMenu.length === 0) {
+
+    alert("Digitaliza una carta o menú primero");
+
+    return;
+
+  }
+
+  let csv =
+    "Categoria,Plato,Descripcion,Precio\n";
+
+  currentMenu.forEach(item => {
+
+    csv +=
+      `"${item.category || ""}",` +
+      `"${item.name || ""}",` +
+      `"${item.description || ""}",` +
+      `"${item.price || ""}"\n`;
+
+  });
+
+  const blob =
+    new Blob([csv], {
+
+      type: "text/csv;charset=utf-8;"
+
+    });
+
+  const url =
+    window.URL.createObjectURL(blob);
+
+  const a =
+    document.createElement("a");
+
+  a.href = url;
+
+  a.download = "menu.csv";
+
+  document.body.appendChild(a);
+
+  a.click();
+
+  document.body.removeChild(a);
+
+  window.URL.revokeObjectURL(url);
+
+}
+
+//==================================================
+// FIN BLOQUE 05
+//==================================================
+
+//==================================================
+// BLOQUE 06 - CAMBIAR IDIOMA
+//==================================================
+
+async function changeLanguage(language) {
+
+    currentLanguage = language;
+
+    //--------------------------------------------------
+    // Traducir interfaz
+    //--------------------------------------------------
+
+    const t = uiTranslations[language];
+
+    if (t) {
+
+        document.getElementById("heroTitle").textContent =
+            t.heroTitle;
+
+        document.getElementById("heroSubtitle").textContent =
+            t.heroSubtitle;
+
+        document.getElementById("url").placeholder =
+            t.placeholder;
+
+        document.getElementById("separatorText").textContent =
+            t.separator;
+
+        document.getElementById("scanTitle").textContent =
+            t.scanTitle;
+
+        document.getElementById("scanText").textContent =
+            t.scanText;
+
+        document.getElementById("uploadTitle").textContent =
+            t.uploadTitle;
+
+        document.getElementById("uploadText").textContent =
+            t.uploadText;
+
+        document.getElementById("csvButton").textContent =
+            t.csv;
+
+    }
+
+    console.log(
+        "Idioma seleccionado:",
+        language
+    );
+
+    //--------------------------------------------------
+    // Si no existe menú, salir
+    //--------------------------------------------------
+
+    if (currentMenu.length === 0) {
+
+        return;
+
+    }
+
+    //--------------------------------------------------
+    // Traducir menú
+    //--------------------------------------------------
+
+    try {
+
+        const response =
+            await fetch("/translate", {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type": "application/json"
+
+                },
+
+                body: JSON.stringify({
+
+                    language: language,
+
+                    menu: currentMenu
+
+                })
+
+            });
+
+        const data =
+            await response.json();
+
+        console.log("RESPUESTA:", data);
+        console.log("MENU:", data.menu);
+        console.log("ES ARRAY:", Array.isArray(data.menu));
+
+        if (data.menu) {
+
+            console.log("ITEMS:", data.menu.items);
+
+        }
+
+        if (!data.success) {
+
+            alert(data.error);
+
+            return;
+
+        }
+
+        //--------------------------------------------------
+        // Adaptar ambos formatos posibles
+        //--------------------------------------------------
+
+        if (Array.isArray(data.menu)) {
+
+            currentMenu = data.menu;
+
+        }
+
+        else if (data.menu.items) {
+
+            currentMenu = data.menu.items;
+
+        }
+
+        else {
+
+            console.error("Formato inesperado:", data);
+
+            alert("Formato de menú no válido.");
+
+            return;
+
+        }
+
+        renderMenu(currentMenu);
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        alert(
+            "❌ Error de comunicación con el servidor."
+        );
+
+    }
+
+}
+
+//==================================================
+// FIN BLOQUE 06
+//==================================================
+
+</script>
+
+</html>
+
+      
