@@ -155,11 +155,23 @@ ${language}
 IMPORTANT:
 
 - ALL translated text MUST be in this language.
+
 - Translate ONLY:
     - category
     - name
     - description
+    - extra
+
+- "extra" may exist:
+    - at menu level
+    - inside categories
+    - inside other menu structures
+
+- Always preserve the original JSON structure exactly.
+- Never remove fields.
+- Never add fields that do not exist in the original JSON.
 - Never translate prices.
+- Never translate IDs, keys, URLs, image paths or technical values.
 - Return ONLY valid JSON.
 
 `
