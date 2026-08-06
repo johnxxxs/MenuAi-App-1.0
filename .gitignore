@@ -3,4 +3,6 @@ node_modules/
 uploads/
 tmp/
 .DS_Store
+stderr.loggit statusgit commit -m "MenuAI API v1.0 - Arquitectura Multi-App"git remote -vgit remote remove origingit push -u origin main
 stderr.log
+cache/translations/

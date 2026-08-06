@@ -6,27 +6,62 @@
 // Cargar aplicación Express
 const { app } = require("./server/app");
 
+
 // ==================================================
 // RUTAS
 // ==================================================
 
-const homeRoutes = require("./server/routes/home");
-const processRoutes = require("./server/routes/process");
-const dishInfoRoutes = require("./server/routes/dishInfo");
-const translateRoutes = require("./server/routes/translate");
-const menuApiRoutes = require("./server/routes/api/menu");
+const homeRoutes =
+    require("./server/routes/home");
+
+const processRoutes =
+    require("./server/routes/process");
+
+const dishInfoRoutes =
+    require("./server/routes/dishInfo");
+
+const translateRoutes =
+    require("./server/routes/translate");
+
+
+// ==================================================
+// API MENUAI V1
+// ==================================================
+
+const menuApiRoutes =
+    require("./server/routes/api/menu");
+
+const translateApiRoutes =
+    require("./server/routes/api/translate");
+
 
 // ==================================================
 // CONFIGURACIÓN DE RUTAS
 // ==================================================
 
 app.use("/", homeRoutes);
+
 app.use("/", processRoutes);
+
 app.use("/", dishInfoRoutes);
+
 app.use("/", translateRoutes);
 
-// API MenuAI para otras aplicaciones
-app.use("/api/v1", menuApiRoutes);
+
+// ==================================================
+// API MENUAI PARA OTRAS APLICACIONES
+// ==================================================
+
+app.use(
+    "/api/v1",
+    menuApiRoutes
+);
+
+app.use(
+    "/api/v1",
+    translateApiRoutes
+);
+
 
 // ==================================================
 // CONFIGURACIÓN HOSTINGER / PROXY
@@ -34,18 +69,50 @@ app.use("/api/v1", menuApiRoutes);
 
 app.set("trust proxy", 1);
 
+
 // Hostinger proporciona dinámicamente process.env.PORT.
 // En desarrollo local utilizará 3000.
-const PORT = process.env.PORT || 3000;
+
+const PORT =
+    process.env.PORT || 3000;
+
 
 // ==================================================
 // ARRANQUE DEL SERVIDOR
 // ==================================================
 
-app.listen(PORT, "0.0.0.0", () => {
-    console.log("========================================");
-    console.log("MenuAI App running");
-    console.log(`PORT: ${PORT}`);
-    console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
-    console.log("========================================");
-});
+app.listen(
+    PORT,
+    "0.0.0.0",
+    () => {
+
+        console.log(
+            "========================================"
+        );
+
+        console.log(
+            "MenuAI App running"
+        );
+
+        console.log(
+            `PORT: ${PORT}`
+        );
+
+        console.log(
+            `Environment: ${process.env.NODE_ENV || "development"}`
+        );
+
+        console.log(
+            "API Menu: /api/v1/menu"
+        );
+
+        console.log(
+            "API Translate: /api/v1/translate"
+        );
+
+        console.log(
+            "========================================"
+        );
+
+    }
+);

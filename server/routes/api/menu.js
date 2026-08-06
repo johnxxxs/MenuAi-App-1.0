@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+
 const apiAuth =
     require("../../middleware/apiAuth");
 
@@ -33,7 +34,7 @@ router.get("/menu", (req, res) => {
 
 
 //==================================================
-// BLOQUE API 02 - PROCESS MENU
+// BLOQUE API 02 - PROCESS / TRANSLATE MENU
 //==================================================
 
 router.post("/menu", apiAuth, async (req, res) => {
@@ -43,6 +44,11 @@ router.post("/menu", apiAuth, async (req, res) => {
         console.log("================================");
         console.log("MENUAI API REQUEST");
         console.log("================================");
+
+
+        //==================================================
+        // REQUEST DATA
+        //==================================================
 
         const client =
             req.body.client || "external";
@@ -62,7 +68,7 @@ router.post("/menu", apiAuth, async (req, res) => {
         // VALIDATION
         //==================================================
 
-        if (!text) {
+        if (!text || typeof text !== "string") {
 
             return res.status(400).json({
 
@@ -77,11 +83,32 @@ router.post("/menu", apiAuth, async (req, res) => {
 
 
         //==================================================
-        // MENU PARSER
+        // MENU PARSER + TRANSLATION
         //==================================================
 
         const parsedMenu =
-            await parseMenuText(text);
+            await parseMenuText(
+                text,
+                language
+            );
+
+
+        //==================================================
+        // VALIDATE PARSER RESPONSE
+        //==================================================
+
+        if (!parsedMenu) {
+
+            return res.status(500).json({
+
+                success: false,
+
+                error:
+                    "MenuAI parser returned empty response"
+
+            });
+
+        }
 
 
         //==================================================
@@ -90,10 +117,14 @@ router.post("/menu", apiAuth, async (req, res) => {
 
         const cleanJson =
             parsedMenu
-                .replace(/```json/g, "")
+                .replace(/```json/gi, "")
                 .replace(/```/g, "")
                 .trim();
 
+
+        //==================================================
+        // CONVERT RESPONSE TO JSON
+        //==================================================
 
         let menu;
 
@@ -110,6 +141,9 @@ router.post("/menu", apiAuth, async (req, res) => {
                 "Invalid JSON returned by parser"
             );
 
+            console.log(cleanJson);
+
+
             return res.status(500).json({
 
                 success: false,
@@ -119,6 +153,27 @@ router.post("/menu", apiAuth, async (req, res) => {
 
                 raw:
                     cleanJson
+
+            });
+
+        }
+
+
+        //==================================================
+        // VALIDATE MENU STRUCTURE
+        //==================================================
+
+        if (
+            !menu.items ||
+            !Array.isArray(menu.items)
+        ) {
+
+            return res.status(500).json({
+
+                success: false,
+
+                error:
+                    "Invalid menu structure returned by MenuAI"
 
             });
 
@@ -145,6 +200,9 @@ router.post("/menu", apiAuth, async (req, res) => {
             language:
                 language,
 
+            total_items:
+                menu.items.length,
+
             data:
                 menu
 
@@ -161,6 +219,7 @@ router.post("/menu", apiAuth, async (req, res) => {
         console.log(error.stack);
         console.log("================================");
 
+
         return res.status(500).json({
 
             success: false,
@@ -175,11 +234,8 @@ router.post("/menu", apiAuth, async (req, res) => {
 });
 
 
+//==================================================
+// EXPORT ROUTER
+//==================================================
+
 module.exports = router;
-
-
-
-
-
-
-
