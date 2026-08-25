@@ -164,10 +164,11 @@ href="layouts/clasico.css">
                 </label>
 
                 <input
-                    id="imageFile"
-                    type="file"
-                    accept="image/*"
-                    hidden>
+                id="imageFile"
+                type="file"
+                accept="image/*"
+                multiple
+                hidden>
 
             </div>
 
@@ -494,23 +495,62 @@ async function extractMenu() {
     currentLanguage
   );
 
-  const imageFile =
-    document.getElementById("imageFile").files[0];
+  const imageFiles =
+    document.getElementById("imageFile").files;
 
-  const cameraFile =
+const cameraFile =
     document.getElementById("cameraFile").files[0];
 
-  const selectedImage =
-    cameraFile || imageFile;
 
-  if (selectedImage) {
+/*
+|--------------------------------------------------------------------------
+| CÁMARA
+|--------------------------------------------------------------------------
+|
+| La cámara sigue enviando una sola imagen.
+|
+|--------------------------------------------------------------------------
+*/
+
+if (cameraFile) {
 
     formData.append(
-      "imageFile",
-      selectedImage
+        "imageFiles",
+        cameraFile
     );
 
-  }
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| GALERÍA
+|--------------------------------------------------------------------------
+|
+| Ahora podemos enviar múltiples imágenes.
+|
+|--------------------------------------------------------------------------
+*/
+
+else if (
+    imageFiles &&
+    imageFiles.length > 0
+) {
+
+    for (
+        let i = 0;
+        i < imageFiles.length;
+        i++
+    ) {
+
+        formData.append(
+            "imageFiles",
+            imageFiles[i]
+        );
+
+    }
+
+}
 
   const pdfFile =
     document.getElementById("pdfInput").files[0];

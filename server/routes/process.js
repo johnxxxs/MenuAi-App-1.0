@@ -37,7 +37,7 @@ router.post(
 
 upload.fields([
     { name: "pdfFile", maxCount: 1 },
-    { name: "imageFile", maxCount: 1 }
+    { name: "imageFiles", maxCount: 20 }
 ]),
 
 async (req, res) => {
@@ -53,8 +53,8 @@ try {
     const pdfFile =
         req.files?.pdfFile?.[0];
 
-    const imageFile =
-        req.files?.imageFile?.[0];
+    const imageFiles =
+    req.files?.imageFiles || [];
 
     console.log("==============================");
     console.log("PROCESS");
@@ -81,25 +81,33 @@ try {
     // BLOQUE 3.3 - IMAGE MODE
     //==================================================
 
-    else if (imageFile) {
+    else if (
+    imageFiles &&
+    imageFiles.length > 0
+) {
 
-        console.log("IMAGE RECEIVED");
+    console.log(
+        "IMAGES RECEIVED:",
+        imageFiles.length
+    );
 
-        const parsedMenu =
-            await processMenuImage(
-                imageFile,
-                language
-            );
 
-        return res.json({
+    const parsedMenu =
+        await processMenuImage(
+            imageFiles,
+            language
+        );
 
-            success: true,
 
-            parsedMenu: parsedMenu
+    return res.json({
 
-        });
+        success: true,
 
-    }
+        parsedMenu: parsedMenu
+
+    });
+
+}
 
 
     //==================================================
