@@ -34,6 +34,9 @@ const menuApiRoutes =
 const translateApiRoutes =
     require("./server/routes/api/translate");
 
+const importMenuApiRoutes =
+    require("./server/routes/api/import-menu");
+
 
 // ==================================================
 // CONFIGURACIÓN DE RUTAS
@@ -60,6 +63,11 @@ app.use(
 app.use(
     "/api/v1",
     translateApiRoutes
+);
+
+app.use(
+    "/api/v1",
+    importMenuApiRoutes
 );
 
 
@@ -108,6 +116,10 @@ app.listen(
 
         console.log(
             "API Translate: /api/v1/translate"
+        );
+
+        console.log(
+            "API Import Menu: /api/v1/import-menu"
         );
 
         console.log(
