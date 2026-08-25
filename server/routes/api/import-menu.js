@@ -11,7 +11,7 @@ const router =
 */
 
 const apiAuth =
-    require("../../../server/middleware/apiAuth");
+    require("../../middleware/apiAuth");
 
 
 /*
@@ -22,7 +22,7 @@ const apiAuth =
 
 const {
     upload
-} = require("../../../server/app");
+} = require("../../app");
 
 
 /*
@@ -56,17 +56,20 @@ const {
 |
 | Recibe:
 |
-| imageFiles[] → hasta 20 imágenes
-| pdfFile      → máximo 1 PDF
+| imageFiles
+| imageFiles[]
+| imageFiles[0]
+| imageFiles[1]
+| ...
 |
-| Devuelve:
+| o:
 |
-| {
-|   success: true,
-|   menu: {
-|       items: [...]
-|   }
-| }
+| pdfFile
+|
+| Máximo:
+|
+| - 20 imágenes
+| - 1 PDF
 |
 |--------------------------------------------------------------------------
 */
@@ -78,25 +81,24 @@ router.post(
 
     apiAuth,
 
-    upload.fields([
+    /*
+    |--------------------------------------------------------------------------
+    | MULTER
+    |--------------------------------------------------------------------------
+    |
+    | Utilizamos any() porque PHP/cURL puede serializar los nombres
+    | de los archivos como:
+    |
+    | imageFiles
+    | imageFiles[]
+    | imageFiles[0]
+    |
+    | Después filtramos manualmente los campos permitidos.
+    |
+    |--------------------------------------------------------------------------
+    */
 
-        {
-            name:
-                "pdfFile",
-
-            maxCount:
-                1
-        },
-
-        {
-            name:
-                "imageFiles",
-
-            maxCount:
-                20
-        }
-
-    ]),
+    upload.any(),
 
     async (
         req,
@@ -113,6 +115,7 @@ router.post(
             */
 
             console.log("");
+
             console.log(
                 "================================"
             );
@@ -135,17 +138,135 @@ router.post(
 
             /*
             |--------------------------------------------------------------------------
-            | ARCHIVOS
+            | ARCHIVOS RECIBIDOS
             |--------------------------------------------------------------------------
             */
 
-            const pdfFile =
-                req.files?.pdfFile?.[0];
+            const receivedFiles =
+                Array.isArray(req.files)
+                    ? req.files
+                    : [];
+
+
+            console.log(
+                "FILES RECEIVED:",
+                receivedFiles.length
+            );
+
+
+            receivedFiles.forEach(
+                function (
+                    file,
+                    index
+                ) {
+
+                    console.log(
+                        "FILE",
+                        index,
+                        "FIELD:",
+                        file.fieldname,
+                        "NAME:",
+                        file.originalname,
+                        "TYPE:",
+                        file.mimetype
+                    );
+
+                }
+            );
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | SEPARAR PDF E IMÁGENES
+            |--------------------------------------------------------------------------
+            */
+
+            let pdfFile =
+                null;
 
 
             const imageFiles =
-                req.files?.imageFiles || [];
+                [];
 
+
+            for (
+                const file
+                of receivedFiles
+            ) {
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | PDF
+                |--------------------------------------------------------------------------
+                */
+
+                if (
+                    file.fieldname ===
+                    "pdfFile"
+                ) {
+
+                    pdfFile =
+                        file;
+
+                    continue;
+
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | IMÁGENES
+                |--------------------------------------------------------------------------
+                |
+                | Aceptamos:
+                |
+                | imageFiles
+                | imageFiles[]
+                | imageFiles[0]
+                | imageFiles[1]
+                |
+                |--------------------------------------------------------------------------
+                */
+
+                if (
+                    /^imageFiles(?:\[\])?$/.test(
+                        file.fieldname
+                    )
+                    ||
+                    /^imageFiles\[\d+\]$/.test(
+                        file.fieldname
+                    )
+                ) {
+
+                    imageFiles.push(
+                        file
+                    );
+
+                    continue;
+
+                }
+
+
+                /*
+                |--------------------------------------------------------------------------
+                | CAMPO NO PERMITIDO
+                |--------------------------------------------------------------------------
+                */
+
+                console.log(
+                    "IGNORING UNKNOWN FILE FIELD:",
+                    file.fieldname
+                );
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | LOG RESUMEN
+            |--------------------------------------------------------------------------
+            */
 
             console.log(
                 "IMAGES:",
@@ -163,13 +284,12 @@ router.post(
 
             /*
             |--------------------------------------------------------------------------
-            | NO INPUT
+            | LÍMITES
             |--------------------------------------------------------------------------
             */
 
             if (
-                !pdfFile &&
-                imageFiles.length === 0
+                imageFiles.length > 20
             ) {
 
                 return res
@@ -180,7 +300,7 @@ router.post(
                             false,
 
                         error:
-                            "No image or PDF received"
+                            "Maximum 20 images allowed"
 
                     });
 
@@ -215,22 +335,41 @@ router.post(
 
             /*
             |--------------------------------------------------------------------------
-            | LANGUAGE
+            | NO INPUT
             |--------------------------------------------------------------------------
-            |
-            | Para la importación inicial utilizamos español.
-            |
-            | Más adelante podremos recibir:
-            |
-            | language=es
-            |
-            | desde OnlineFoodies.
-            |
+            */
+
+            if (
+                !pdfFile &&
+                imageFiles.length === 0
+            ) {
+
+                return res
+                    .status(400)
+                    .json({
+
+                        success:
+                            false,
+
+                        error:
+                            "No image or PDF received"
+
+                    });
+
+            }
+
+
+            /*
+            |--------------------------------------------------------------------------
+            | LANGUAGE
             |--------------------------------------------------------------------------
             */
 
             const language =
-                req.body.language || "es";
+                req.body &&
+                req.body.language
+                    ? req.body.language
+                    : "es";
 
 
             /*
@@ -257,7 +396,11 @@ router.post(
 
                 /*
                 |--------------------------------------------------------------------------
-                | REUTILIZAR IMAGE SERVICE
+                | IMAGE SERVICE
+                |--------------------------------------------------------------------------
+                |
+                | Reutilizamos exactamente el servicio existente.
+                |
                 |--------------------------------------------------------------------------
                 */
 
@@ -273,26 +416,28 @@ router.post(
 
                 /*
                 |--------------------------------------------------------------------------
-                | LIMPIAR JSON MARKDOWN
+                | LIMPIAR JSON
                 |--------------------------------------------------------------------------
                 */
 
                 const cleanJson =
-                    parsedMenuText
-                        .replace(
-                            /```json/g,
-                            ""
-                        )
-                        .replace(
-                            /```/g,
-                            ""
-                        )
-                        .trim();
+                    String(
+                        parsedMenuText || ""
+                    )
+                    .replace(
+                        /```json/g,
+                        ""
+                    )
+                    .replace(
+                        /```/g,
+                        ""
+                    )
+                    .trim();
 
 
                 /*
                 |--------------------------------------------------------------------------
-                | PARSEAR
+                | PARSEAR JSON
                 |--------------------------------------------------------------------------
                 */
 
@@ -307,9 +452,14 @@ router.post(
                         );
 
                 }
+
                 catch (
                     jsonError
                 ) {
+
+                    console.log(
+                        "================================"
+                    );
 
                     console.log(
                         "INVALID IMAGE MENU JSON"
@@ -317,6 +467,18 @@ router.post(
 
                     console.log(
                         jsonError.message
+                    );
+
+                    console.log(
+                        "RAW:"
+                    );
+
+                    console.log(
+                        parsedMenuText
+                    );
+
+                    console.log(
+                        "================================"
                     );
 
 
@@ -343,6 +505,11 @@ router.post(
                 | RESPUESTA
                 |--------------------------------------------------------------------------
                 */
+
+                console.log(
+                    "IMAGE MENU PARSED SUCCESSFULLY"
+                );
+
 
                 return res.json({
 
@@ -384,7 +551,7 @@ router.post(
 
                 /*
                 |--------------------------------------------------------------------------
-                | EXTRAER TEXTO DEL PDF
+                | PDF SERVICE
                 |--------------------------------------------------------------------------
                 */
 
@@ -398,15 +565,15 @@ router.post(
                 |--------------------------------------------------------------------------
                 | PARSER SERVICE
                 |--------------------------------------------------------------------------
+                |
+                | Conservamos exactamente el mismo flujo que /process.
+                |
+                |--------------------------------------------------------------------------
                 */
 
                 const parsedMenuText =
                     await parseMenuText(
-
-                        text,
-
-                        language
-
+                        text
                     );
 
 
@@ -417,16 +584,18 @@ router.post(
                 */
 
                 const cleanJson =
-                    parsedMenuText
-                        .replace(
-                            /```json/g,
-                            ""
-                        )
-                        .replace(
-                            /```/g,
-                            ""
-                        )
-                        .trim();
+                    String(
+                        parsedMenuText || ""
+                    )
+                    .replace(
+                        /```json/g,
+                        ""
+                    )
+                    .replace(
+                        /```/g,
+                        ""
+                    )
+                    .trim();
 
 
                 /*
@@ -446,9 +615,14 @@ router.post(
                         );
 
                 }
+
                 catch (
                     jsonError
                 ) {
+
+                    console.log(
+                        "================================"
+                    );
 
                     console.log(
                         "INVALID PDF MENU JSON"
@@ -456,6 +630,18 @@ router.post(
 
                     console.log(
                         jsonError.message
+                    );
+
+                    console.log(
+                        "RAW:"
+                    );
+
+                    console.log(
+                        parsedMenuText
+                    );
+
+                    console.log(
+                        "================================"
                     );
 
 
@@ -483,6 +669,11 @@ router.post(
                 |--------------------------------------------------------------------------
                 */
 
+                console.log(
+                    "PDF MENU PARSED SUCCESSFULLY"
+                );
+
+
                 return res.json({
 
                     success:
@@ -505,14 +696,41 @@ router.post(
             }
 
 
+            /*
+            |--------------------------------------------------------------------------
+            | FALLBACK
+            |--------------------------------------------------------------------------
+            */
+
+            return res
+                .status(400)
+                .json({
+
+                    success:
+                        false,
+
+                    error:
+                        "Unsupported import request"
+
+                });
+
+
         }
+
 
         catch (
             error
         ) {
 
 
+            /*
+            |--------------------------------------------------------------------------
+            | ERROR GLOBAL
+            |--------------------------------------------------------------------------
+            */
+
             console.log("");
+
             console.log(
                 "================================"
             );
@@ -522,7 +740,12 @@ router.post(
             );
 
             console.log(
+                "MESSAGE:",
                 error.message
+            );
+
+            console.log(
+                "STACK:"
             );
 
             console.log(
@@ -553,4 +776,5 @@ router.post(
 );
 
 
-module.exports = router;
+module.exports =
+    router;
